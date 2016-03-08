@@ -1,5 +1,7 @@
 # CanDo
 
+[![Gem Version](https://badge.fury.io/rb/can-do.svg)](http://badge.fury.io/rb/can-do)
+
 Flips your features based on a `config/features.yml` file or environment variables. No data store required.
 
 ## Usage
