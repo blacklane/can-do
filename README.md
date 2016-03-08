@@ -9,15 +9,12 @@ Add `can-do` to your Gemfile:
 ```ruby
 # Gemfile
 
-gem "can-do"
+gem "can-do", require: "can_do"
 ```
 
-Inside the `config` folder relative to your working directory create a file called `features.yml`.
-
-Inside this file, place your default feature flags within the `defaults` key. All available features should be listed
-here, together with their default values.
-
-Add environment-specific feature flags under the environment name.
+Inside the `config` folder relative to your working directory create a file called `features.yml`. Within this file,
+place your *default feature flags* within the `defaults` key. All available features should be listed here, together with
+their default values. Add *environment-specific* feature flags under the environment name.
 
 ```
 # config/features.yml
