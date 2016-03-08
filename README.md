@@ -4,6 +4,14 @@ Flips your features based on a `config/features.yml` file or environment variabl
 
 ## Usage
 
+Add `can-do` to your Gemfile:
+
+```ruby
+# Gemfile
+
+gem "can-do"
+```
+
 Inside the `config` folder relative to your working directory create a file called `features.yml`.
 
 Inside this file, place your default feature flags within the `defaults` key. All available features should be listed
