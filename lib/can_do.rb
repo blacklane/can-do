@@ -68,6 +68,14 @@ class CanDo
   end
 
   def env
-    ENV["RAILS_ENV"] || ENV["RACK_ENV"]
+    rails_env || rack_env
+  end
+
+  def rails_env
+    defined?(Rails) ? Rails.env : ENV["RAILS_ENV"]
+  end
+
+  def rack_env
+    ENV["RACK_ENV"]
   end
 end
