@@ -3,12 +3,12 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name          = "can-do"
-  spec.version       = "0.1.1"
+  spec.version       = "1.0.0"
   spec.authors       = ["Florin Lipan", "Yuri Veremeyenko"]
   spec.email         = ["florin.lipan@blacklane.com", "yuri.veremeyenko@blacklane.com"]
 
   spec.summary       = %q{Simple feature flags.}
-  spec.description   = %q{Simple feature flags based on a YAML config file and/or environment variables.}
+  spec.description   = %q{Simple feature flags based on a redis instance, a YAML config file and/or environment variables.}
   spec.homepage      = "https://github.com/blacklane/can-do"
   spec.license       = "MIT"
 
@@ -17,5 +17,12 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "redis"
+  spec.add_dependency "connection_pool"
+
   spec.add_development_dependency "bundler"
+  spec.add_development_dependency "pry"
+  spec.add_development_dependency "rspec"
+  spec.add_development_dependency "rubocop"
+  spec.add_development_dependency "rspec-mocks"
 end

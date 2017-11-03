@@ -1,0 +1,6 @@
+language: ruby
+before_script:
+  - bundle install
+script:
+  - bundle exec rspec
+  - bundle exec rubocop

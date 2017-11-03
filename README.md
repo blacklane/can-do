@@ -2,7 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/can-do.svg)](http://badge.fury.io/rb/can-do)
 
-Flips your features based on a `config/features.yml` file or environment variables. No data store required.
+Flips your features based on a redis key, a `config/features.yml` file or environment variables.
 
 ## Usage
 
@@ -13,6 +13,36 @@ Add `can-do` to your Gemfile:
 
 gem "can-do", require: "can_do"
 ```
+
+## Redis values
+
+To use redis as a storage set the environment variable `CANDO_REDIS_URL` with your redis instance.
+
+The keys have to be prefixed with 'features:'.
+
+So to set and use the feature `experiment-1` set the key like
+
+```sh
+$ redis-cli SET features:experiment_1 true
+```
+
+and use it like
+
+```ruby
+require "can_do"
+
+CanDo.feature?(:experiment_1)
+```
+
+Any unset key will fall back to either the environment variable or the yaml variable and `false` if none is set.
+
+```ruby
+require "can_do"
+
+CanDo.feature?(:experiment_1)
+```
+
+## Yaml File
 
 Inside the `config` folder relative to your working directory create a file called `features.yml`. Within this file,
 place your *default feature flags* within the `defaults` key. All available features should be listed here, together with
@@ -48,7 +78,7 @@ CanDo.feature?(:some_feature) do
 end
 ```
 
-If a feature is not found, `CanDo::NotAFeature` is raised.
+If a feature is not found, `false` is returned.
 
 ## Environment variables
 
