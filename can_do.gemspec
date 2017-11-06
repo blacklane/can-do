@@ -4,8 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 Gem::Specification.new do |spec|
   spec.name          = "can-do"
   spec.version       = "1.0.0"
-  spec.authors       = ["Florin Lipan", "Yuri Veremeyenko"]
-  spec.email         = ["florin.lipan@blacklane.com", "yuri.veremeyenko@blacklane.com"]
+  spec.authors       = ["Blacklane"]
 
   spec.summary       = %q{Simple feature flags.}
   spec.description   = %q{Simple feature flags based on a redis instance, a YAML config file and/or environment variables.}

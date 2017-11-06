@@ -31,7 +31,7 @@ class CanDo
   FEATURE_KEY_PREFIX = "features:"
   CONNECTION_POOL_SIZE = ENV.fetch("CANDO_CONNECTION_POOL_SIZE", 5)
   CONNECTION_POOL = ConnectionPool.new(size: CONNECTION_POOL_SIZE, timeout: 5) do
-    Redis.new(url: ENV.fetch("CANDO_REDIS_URL", nil))
+    Redis.new(url: ENV["CANDO_REDIS_URL"])
   end
 
   THE_TRUTH = /^(true|t|yes|y|1)$/i
