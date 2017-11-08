@@ -1,4 +1,6 @@
 language: ruby
+services:
+  - redis-server
 before_script:
   - bundle install
 script:
