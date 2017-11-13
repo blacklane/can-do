@@ -96,6 +96,16 @@ RSpec.describe CanDo do
         expect(write).to be(false)
       end
     end
+
+    context "dns failure" do
+      before do
+        allow(can_do).to receive(:pool) { raise SocketError }
+      end
+
+      it "returns false" do
+        expect(write).to be(false)
+      end
+    end
   end
 
   describe "yaml defaults" do

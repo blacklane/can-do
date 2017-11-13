@@ -33,6 +33,7 @@ class CanDo
 
   THE_TRUTH = /^(true|t|yes|y|1)$/i
   DEFAULT_NAMESPACE = "defaults".freeze
+  REDIS_ERRORS = [Redis::CannotConnectError, SocketError]
 
   class << self
     def feature?(feature)
@@ -52,20 +53,20 @@ class CanDo
       return !!(shared_feature =~ THE_TRUTH) unless shared_feature.nil?
       write(name, fallback_value)
       fallback_value
-    rescue Redis::CannotConnectError
+    rescue *REDIS_ERRORS
       fallback_value
     end
 
     def write(name, val)
       pool.with { |redis| redis.set(redis_key(name), val) } == "OK"
-    rescue Redis::CannotConnectError
+    rescue *REDIS_ERRORS
       false
     end
 
     def features
       keys = pool.with { |redis| redis.keys(redis_key("*")) }
       keys.map { |key| key.sub(redis_key(nil), "") }
-    rescue Redis::CannotConnectError
+    rescue *REDIS_ERRORS
       []
     end
 
