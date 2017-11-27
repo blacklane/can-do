@@ -46,8 +46,7 @@ class CanDo
 
     def read(feature)
       name = feature.to_s
-      shared_feature = pool.with { |redis| redis.get(redis_key(name)) }
-
+      shared_feature = redis_read(name)
       fallback_value = fallback.fetch(name, false)
 
       return !!(shared_feature =~ THE_TRUTH) unless shared_feature.nil?
@@ -70,6 +69,10 @@ class CanDo
       []
     end
 
+    def redis_read(name)
+      pool.with { |redis| redis.get(redis_key(name)) }
+    end
+
     private
 
     def redis_key(name)
@@ -81,11 +84,24 @@ class CanDo
     end
 
     def fallback
-      @fallback ||= load_yaml_features
+      @fallback ||= init_fallback
     end
 
     def yaml_file_path
       File.expand_path("config/features.yml", Dir.pwd)
+    end
+
+    def init_fallback
+      features = load_yaml_features
+
+      features.each do |key, val|
+        begin
+          write(key, redis_read(key) || val)
+        rescue *REDIS_ERRORS
+        end
+      end
+
+      features
     end
 
     def load_yaml_features
