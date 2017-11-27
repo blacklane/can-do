@@ -25,12 +25,3 @@ RSpec.shared_context "reads yaml file" do
     allow(File).to receive(:read).with(yaml_file_path) { yaml_config }
   end
 end
-
-RSpec.shared_context "result with value" do |value|
-  let(:result) { described_class.success(value) }
-end
-
-RSpec.shared_examples "result has value" do |value|
-  it { expect(result).to be_success }
-  it { expect(result.value).to eq(value) }
-end

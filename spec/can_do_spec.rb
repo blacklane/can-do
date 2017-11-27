@@ -116,6 +116,17 @@ RSpec.describe CanDo do
       expect(can_do.feature?(:feature)).to eq(true)
       expect(can_do.feature?(:other_feature)).to eq(false)
     end
+
+    it "writes to redis on load" do
+      can_do.feature?(:other_feature)
+      redis_value = redis.get("#{redis_namespace}:feature")
+      expect(redis_value).to eq("true")
+    end
+
+    it "doesnt overide values already set in redis" do
+      redis.set("#{redis_namespace}:feature", "false")
+      expect(can_do.feature?(:feature)).to eq(false)
+    end
   end
 
   describe "yaml defaults for environment" do
