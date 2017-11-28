@@ -33,7 +33,8 @@ class CanDo
 
   THE_TRUTH = /^(true|t|yes|y|1)$/i
   DEFAULT_NAMESPACE = "defaults".freeze
-  REDIS_ERRORS = [Redis::CannotConnectError, SocketError]
+  REDIS_ERRORS = [Redis::CannotConnectError, SocketError, RuntimeError]
+  # hiredis raises RuntimeError when it cannot connect to the redis server
 
   class << self
     def feature?(feature)

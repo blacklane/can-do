@@ -106,6 +106,16 @@ RSpec.describe CanDo do
         expect(write).to be(false)
       end
     end
+
+    context "runtime error" do
+      before do
+        allow(can_do).to receive(:pool) { raise RuntimeError }
+      end
+
+      it "returns false" do
+        expect(write).to be(false)
+      end
+    end
   end
 
   describe "yaml defaults" do
