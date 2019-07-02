@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "connection_pool"
 require "redis"
 require "yaml"
@@ -32,7 +34,7 @@ class CanDo
   end
 
   THE_TRUTH = /^(true|t|yes|y|1)$/i
-  DEFAULT_NAMESPACE = "defaults".freeze
+  DEFAULT_NAMESPACE = "defaults"
   REDIS_ERRORS = [Redis::CannotConnectError, SocketError, RuntimeError]
   # hiredis raises RuntimeError when it cannot connect to the redis server
 
@@ -41,6 +43,7 @@ class CanDo
       is_enabled = read(feature)
       # If no block is passed, return true or false
       return is_enabled unless block_given?
+
       # If a block is passed, return block or nil
       yield if is_enabled
     end
@@ -51,6 +54,7 @@ class CanDo
       fallback_value = fallback.fetch(name, false)
 
       return !!(shared_feature =~ THE_TRUTH) unless shared_feature.nil?
+
       write(name, fallback_value)
       fallback_value
     rescue *REDIS_ERRORS
@@ -107,6 +111,7 @@ class CanDo
 
     def load_yaml_features
       return {} unless File.exist?(yaml_file_path)
+
       data = YAML.safe_load(File.read(yaml_file_path))
       data.fetch(DEFAULT_NAMESPACE, {}).merge(data.fetch(env, {}))
     end
